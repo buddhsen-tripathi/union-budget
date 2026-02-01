@@ -39,8 +39,8 @@ export const Policies: React.FC = () => {
         </p>
       </div>
 
-      <div className="flex justify-center mb-8">
-        <div className="inline-flex bg-white rounded-lg border border-slate-200 p-1 shadow-sm">
+      <div className="flex justify-center mb-8 overflow-x-auto pb-2">
+        <div className="inline-flex bg-white rounded-lg border border-slate-200 p-1 shadow-sm whitespace-nowrap">
            {years.map(year => (
              <button
                key={year}

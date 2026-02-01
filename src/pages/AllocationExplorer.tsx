@@ -73,18 +73,18 @@ export const AllocationExplorer: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-4rem)] flex flex-col">
-       <div className="flex justify-between items-end mb-6">
+       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
             <h2 className="text-2xl font-bold text-slate-900">Allocation Explorer</h2>
             <p className="text-slate-500">Visualizing the relative size of ministry budgets.</p>
         </div>
-        <div className="flex items-center space-x-4">
-             <div className="flex bg-white border border-slate-300 rounded-md shadow-sm h-9">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto">
+             <div className="flex bg-white border border-slate-300 rounded-md shadow-sm h-9 overflow-x-auto max-w-full">
               {years.map((year) => (
                 <button
                   key={year}
                   onClick={() => setSelectedYear(year)}
-                  className={`px-3 py-1 text-xs font-medium focus:outline-none first:rounded-l-md last:rounded-r-md border-r last:border-r-0 border-slate-300 transition-colors ${
+                  className={`px-3 py-1 text-xs font-medium focus:outline-none first:rounded-l-md last:rounded-r-md border-r last:border-r-0 border-slate-300 transition-colors whitespace-nowrap ${
                     selectedYear === year 
                       ? 'bg-india-blue text-white' 
                       : 'bg-white text-slate-700 hover:bg-slate-50'
@@ -94,7 +94,7 @@ export const AllocationExplorer: React.FC = () => {
                 </button>
               ))}
             </div>
-            <div className="flex items-center space-x-2 text-sm text-slate-400">
+            <div className="flex items-center space-x-2 text-sm text-slate-400 hidden sm:flex">
                 <span>Size represents Allocation Amount</span>
             </div>
         </div>
