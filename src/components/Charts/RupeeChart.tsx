@@ -38,6 +38,7 @@ export const RupeeChart: React.FC<Props> = ({ data }) => {
             paddingAngle={2}
             dataKey="percentage"
             nameKey="label"
+            animationDuration={600}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />

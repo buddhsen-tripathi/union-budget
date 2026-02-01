@@ -33,10 +33,10 @@ export const BudgetTrendChart: React.FC = () => {
             cursor={{fill: '#f1f5f9'}}
           />
           <Legend wrapperStyle={{paddingTop: '20px'}} />
-          <Bar dataKey="revenueReceipts" name="Rev. Receipts" fill="#10b981" radius={[4, 4, 0, 0]} barSize={20} />
-          <Bar dataKey="revenueExpenditure" name="Rev. Expenditure" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={20} />
-          <Bar dataKey="capitalReceipts" name="Cap. Receipts" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
-          <Bar dataKey="effectiveCapitalExpenditure" name="Cap. Expenditure" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={20} />
+          <Bar dataKey="revenueReceipts" name="Rev. Receipts" fill="#10b981" radius={[4, 4, 0, 0]} barSize={20} animationDuration={500} />
+          <Bar dataKey="revenueExpenditure" name="Rev. Expenditure" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={20} animationDuration={500} />
+          <Bar dataKey="capitalReceipts" name="Cap. Receipts" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} animationDuration={500} />
+          <Bar dataKey="effectiveCapitalExpenditure" name="Cap. Expenditure" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={20} animationDuration={500} />
         </BarChart>
       </ResponsiveContainer>
     </div>

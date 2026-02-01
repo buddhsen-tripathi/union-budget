@@ -109,6 +109,7 @@ export const AllocationExplorer: React.FC = () => {
                     aspectRatio={4 / 3}
                     stroke="#fff"
                     content={<CustomizedContent />}
+                    animationDuration={400}
                 >
                     <Tooltip content={<CustomTooltip />} />
                 </Treemap>

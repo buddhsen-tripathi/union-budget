@@ -28,8 +28,8 @@ export const FiscalChart: React.FC = () => {
             cursor={{fill: '#f1f5f9'}}
           />
           <Legend wrapperStyle={{paddingTop: '20px'}} />
-          <Bar dataKey="fiscalDeficit" name="Fiscal Deficit" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={32} />
-          <Bar dataKey="revenueDeficit" name="Revenue Deficit" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={32} />
+          <Bar dataKey="fiscalDeficit" name="Fiscal Deficit" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={32} animationDuration={500} />
+          <Bar dataKey="revenueDeficit" name="Revenue Deficit" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={32} animationDuration={500} />
         </BarChart>
       </ResponsiveContainer>
     </div>
