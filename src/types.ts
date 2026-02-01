@@ -49,5 +49,5 @@ export interface BudgetData {
   historicalRupeeGoesTo?: Record<string, RupeeFlow[]>;
 }
 
-export type SortField = 'ministry' | 'amountCrore';
+export type SortField = 'ministry' | 'amountCrore' | 'amount2024' | 'amount2025' | 'amount2026';
 export type SortOrder = 'asc' | 'desc';
