@@ -6,27 +6,29 @@ export const YEAR: BudgetYear = "2023-24";
 // NOTE: Verify these values against official Budget at a Glance document
 export const allocations: BudgetAllocation[] = [
   { ministry: "Interest Payments", amountCrore: 1079971, category: "Debt", year: YEAR },
-  { ministry: "Defence", amountCrore: 593538, category: "Defense", year: YEAR },
-  { ministry: "Transport", amountCrore: 439897, category: "Infrastructure", year: YEAR },
-  { ministry: "Pension", amountCrore: 254774, category: "Social", year: YEAR },
-  { ministry: "Home Affairs", amountCrore: 196035, category: "Administration", year: YEAR },
+  { ministry: "Transport", amountCrore: 517034, category: "Infrastructure", year: YEAR },
+  { ministry: "Defence", amountCrore: 432720, category: "Defense", year: YEAR },
+  { ministry: "Pension", amountCrore: 234359, category: "Social", year: YEAR },
+  { ministry: "Rural Development", amountCrore: 238204, category: "Social", year: YEAR },
   { ministry: "Food Subsidy", amountCrore: 197350, category: "Subsidies", year: YEAR },
-  { ministry: "Rural Development", amountCrore: 195855, category: "Social", year: YEAR },
+  { ministry: "Tax Administration", amountCrore: 194749, category: "Administration", year: YEAR },
   { ministry: "Fertiliser Subsidy", amountCrore: 175100, category: "Subsidies", year: YEAR },
-  { ministry: "Agriculture and Allied Activities", amountCrore: 137695, category: "Economic", year: YEAR },
+  { ministry: "Agriculture and Allied Activities", amountCrore: 144214, category: "Economic", year: YEAR },
+  { ministry: "Home Affairs", amountCrore: 134917, category: "Administration", year: YEAR },
   { ministry: "Education", amountCrore: 112899, category: "Social", year: YEAR },
-  { ministry: "Health", amountCrore: 89155, category: "Social", year: YEAR },
-  { ministry: "Energy", amountCrore: 60222, category: "Infrastructure", year: YEAR },
-  { ministry: "IT and Telecom", amountCrore: 98550, category: "Infrastructure", year: YEAR },
-  { ministry: "Finance", amountCrore: 58530, category: "Administration", year: YEAR },
+  { ministry: "Energy", amountCrore: 94915, category: "Infrastructure", year: YEAR },
+  { ministry: "IT and Telecom", amountCrore: 93478, category: "Infrastructure", year: YEAR },
+  { ministry: "Health", amountCrore: 88956, category: "Social", year: YEAR },
   { ministry: "Urban Development", amountCrore: 76432, category: "Infrastructure", year: YEAR },
-  { ministry: "Social Welfare", amountCrore: 39914, category: "Social", year: YEAR },
-  { ministry: "Commerce and Industry", amountCrore: 36100, category: "Economic", year: YEAR },
-  { ministry: "Tax Administration", amountCrore: 70600, category: "Administration", year: YEAR },
-  { ministry: "Scientific Departments", amountCrore: 25036, category: "Economic", year: YEAR },
+  { ministry: "Union Territories", amountCrore: 61118, category: "Administration", year: YEAR },
+  { ministry: "Social Welfare", amountCrore: 55080, category: "Social", year: YEAR },
+  { ministry: "Commerce and Industry", amountCrore: 48169, category: "Economic", year: YEAR },
+  { ministry: "Scientific Departments", amountCrore: 32225, category: "Economic", year: YEAR },
   { ministry: "External Affairs", amountCrore: 18050, category: "Administration", year: YEAR },
-  { ministry: "Petroleum Subsidy", amountCrore: 2257, category: "Subsidies", year: YEAR },
+  { ministry: "Finance", amountCrore: 13574, category: "Administration", year: YEAR },
+  { ministry: "Planning and Statistics", amountCrore: 6268, category: "Administration", year: YEAR },
   { ministry: "Development of North East", amountCrore: 5892, category: "Infrastructure", year: YEAR },
+  { ministry: "Petroleum Subsidy", amountCrore: 2257, category: "Subsidies", year: YEAR },
 ];
 
 export const rupeeComesFrom: RupeeFlow[] = [
@@ -105,33 +107,46 @@ export const stats: YearlyStats = {
 export const deficitStats: DeficitStats = {
   year: YEAR,
   fiscalDeficit: { value: 1786816, percentGDP: 5.9 },
-  revenueDeficit: { value: 876566, percentGDP: 2.9 },
-  effectiveRevenueDeficit: { value: 295779, percentGDP: 1.0 },
+  revenueDeficit: { value: 869855, percentGDP: 2.9 },
+  effectiveRevenueDeficit: { value: 499867, percentGDP: 1.7 },
   primaryDeficit: { value: 706845, percentGDP: 2.3 },
+};
+
+// Sources of Financing Fiscal Deficit (2023-24 Budget Estimates)
+export const fiscalDeficitSources = {
+  year: YEAR,
+  debtReceiptsNet: 1798603,
+  marketBorrowings: 1230911,
+  securitiesAgainstSmallSavings: 471317,
+  stateProvidentFunds: 20000,
+  otherInternalDebts: 54258,
+  externalDebt: 22118,
+  drawDownCashBalance: -11787,
+  total: 1786816,
 };
 
 // Official Receipts Breakdown (2023-24 Budget Estimates)
 export const receiptsBreakdown: ReceiptsBreakdown = {
   year: YEAR,
-  grossTaxRevenue: 3301990,
+  grossTaxRevenue: 3360858,
   taxComposition: {
     corporationTax: 922675,
-    incomeTax: 833000,
-    customs: 220000,
-    unionExciseDuties: 338505,
-    gst: 973280,
-    otherTaxes: 14530,
+    incomeTax: 900575,
+    customs: 233100,
+    unionExciseDuties: 339000,
+    gst: 956600,
+    otherTaxes: 8908, // Service Tax (500) + Taxes of Union Territories (8408)
   },
-  statesShare: 1075650,
-  netTaxRevenue: 2226340,
-  nonTaxRevenue: 300000,
-  totalRevenueReceipts: 2526340,
+  statesShare: 1021448,
+  netTaxRevenue: 2330631,
+  nonTaxRevenue: 301650,
+  totalRevenueReceipts: 2632281,
   capitalReceipts: {
-    nonDebt: 80000,
-    debt: 1786816,
-    total: 1866816,
+    nonDebt: 84000,
+    debt: 1798604,
+    total: 1882603,
   },
-  totalReceipts: 4503097,
+  totalReceipts: 4514884,
 };
 
 // Official Expenditure Breakdown (2023-24 Budget Estimates)

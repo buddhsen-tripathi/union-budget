@@ -13,11 +13,14 @@ interface Props {
 interface ComparisonRow {
   ministry: string;
   category: string;
+  amount2023: number;
   amount2024: number;
   amount2025: number;
   amount2026: number;
   changePercent: number;
 }
+
+const EXCLUDED_MINISTRIES = ['Interest Payments'];
 
 export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) => {
   const { searchQuery, sortField, sortOrder, setSort } = useAppStore();
@@ -31,12 +34,16 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
     const map = new Map<string, ComparisonRow>();
 
     // Helper to process a list
-    const processList = (list: BudgetAllocation[], yearKey: 'amount2024' | 'amount2025' | 'amount2026') => {
+    const processList = (list: BudgetAllocation[], yearKey: 'amount2023' | 'amount2024' | 'amount2025' | 'amount2026') => {
       list.forEach(item => {
+        // Skip excluded ministries
+        if (EXCLUDED_MINISTRIES.includes(item.ministry)) return;
+
         if (!map.has(item.ministry)) {
           map.set(item.ministry, {
             ministry: item.ministry,
             category: item.category,
+            amount2023: 0,
             amount2024: 0,
             amount2025: 0,
             amount2026: 0,
@@ -49,6 +56,7 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
     };
 
     if (budgetData.historicalAllocations) {
+      processList(budgetData.historicalAllocations["2023-24"] || [], 'amount2023');
       processList(budgetData.historicalAllocations["2024-25"] || [], 'amount2024');
       processList(budgetData.historicalAllocations["2025-26"] || [], 'amount2025');
     }
@@ -103,11 +111,11 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
     });
 
   const downloadCSV = () => {
-    const headers = ["Ministry", "Category", "2024-25 (Cr)", "2025-26 (Cr)", "2026-27 (Cr)", "Change (%)"];
+    const headers = ["Ministry", "Category", "2023-24 (Cr)", "2024-25 (Cr)", "2025-26 (Cr)", "2026-27 (Cr)", "Change (%)"];
     const csvContent = [
       headers.join(","),
-      ...filteredData.map(row => 
-        `"${row.ministry}","${row.category}",${row.amount2024},${row.amount2025},${row.amount2026},${row.changePercent.toFixed(2)}`
+      ...filteredData.map(row =>
+        `"${row.ministry}","${row.category}",${row.amount2023},${row.amount2024},${row.amount2025},${row.amount2026},${row.changePercent.toFixed(2)}`
       )
     ].join("\n");
 
@@ -130,7 +138,7 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
       <div className="p-6 border-b border-slate-100 flex justify-between items-center">
         <div>
            <h2 className="text-lg font-bold text-slate-900">Ministry Allocations (Year-on-Year)</h2>
-           <p className="text-sm text-slate-500">Comparison across FY 2024-25, 2025-26, and 2026-27</p>
+           <p className="text-sm text-slate-500">Comparison across FY 2023-24, 2024-25, 2025-26, and 2026-27</p>
         </div>
         <button 
           onClick={downloadCSV}
@@ -154,7 +162,14 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
                 </div>
               </th>
               <th className="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
-              
+
+              <th className="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right cursor-pointer hover:bg-slate-100 transition-colors hidden lg:table-cell" onClick={() => handleSort('amount2023')}>
+                 <div className="flex items-center justify-end space-x-1">
+                   <span>2023-24 (₹ Cr)</span>
+                   {sortField === 'amount2023' && (sortOrder === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
+                </div>
+              </th>
+
               <th className="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right cursor-pointer hover:bg-slate-100 transition-colors hidden md:table-cell" onClick={() => handleSort('amount2024')}>
                  <div className="flex items-center justify-end space-x-1">
                    <span>2024-25 (₹ Cr)</span>
@@ -203,6 +218,9 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
                         'bg-slate-100 text-slate-800'}`}>
                       {item.category}
                     </span>
+                  </td>
+                  <td className="p-4 text-right font-mono text-slate-400 text-sm hidden lg:table-cell">
+                    {formatCrore(item.amount2023, { showSymbol: false })}
                   </td>
                   <td className="p-4 text-right font-mono text-slate-500 text-sm hidden md:table-cell">
                     {formatCrore(item.amount2024, { showSymbol: false })}

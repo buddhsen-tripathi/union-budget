@@ -122,5 +122,5 @@ export interface BudgetData {
   historicalExpenditure?: HistoricalData<ExpenditureBreakdown>;
 }
 
-export type SortField = 'ministry' | 'amountCrore' | 'amount2024' | 'amount2025' | 'amount2026';
+export type SortField = 'ministry' | 'amountCrore' | 'amount2023' | 'amount2024' | 'amount2025' | 'amount2026';
 export type SortOrder = 'asc' | 'desc';

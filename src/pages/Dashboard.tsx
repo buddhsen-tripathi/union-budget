@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { StatsCard } from '../components/StatsCard';
 import { FiscalChart } from '../components/Charts/FiscalChart';
 import { RupeeChart } from '../components/Charts/RupeeChart';
 import { BudgetTrendChart } from '../components/Charts/BudgetTrendChart';
@@ -7,7 +6,7 @@ import { DeficitStatsCard } from '../components/Charts/DeficitStatsCard';
 import { ReceiptsChart } from '../components/Charts/ReceiptsChart';
 import { ExpenditureStructureChart } from '../components/Charts/ExpenditureStructureChart';
 import { AllocationsTable } from '../components/AllocationsTable';
-import { Download, AlertCircle, Calendar } from 'lucide-react';
+import { AlertCircle, ChevronDown } from 'lucide-react';
 import { useAppStore } from '../store';
 import { budgetData } from '../data';
 import { formatCrore } from '../utils/format';
@@ -89,8 +88,8 @@ export const Dashboard: React.FC = () => {
     .filter(m => m.ministry.toLowerCase().includes(searchQuery.toLowerCase()))
     .sort((a, b) => b.amountCrore - a.amountCrore);
 
-  // Take top 5 or less
-  const topMinistries = filteredAllocations.slice(0, 5);
+  // Take top 7 or less
+  const topMinistries = filteredAllocations.slice(0, 7);
 
   // Calculate max value for relative bar width (if no search results, avoid division by zero)
   const maxValue = topMinistries.length > 0 ? topMinistries[0].amountCrore : 1;
@@ -116,27 +115,37 @@ export const Dashboard: React.FC = () => {
           <h2 className="text-3xl font-bold text-slate-900">Budget at a Glance</h2>
           <p className="text-slate-500 mt-1">Key figures and fiscal indicators for FY {selectedYear}</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="relative inline-block text-left">
-            <div className="flex bg-white border border-slate-300 rounded-md shadow-sm">
-              {years.map((year) => (
-                <button
-                  key={year}
-                  onClick={() => setSelectedYear(year)}
-                  className={`px-4 py-2 text-sm font-medium focus:outline-none first:rounded-l-md last:rounded-r-md border-r last:border-r-0 border-slate-300 transition-colors ${
-                    selectedYear === year 
-                      ? 'bg-india-blue text-white' 
-                      : 'bg-white text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  {year}
-                </button>
-              ))}
-            </div>
-          </div>
-          <button className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800 transition-all">
-            <Download className="mr-2 h-4 w-4" /> PDF
-          </button>
+        {/* Mobile: Dropdown */}
+        <div className="md:hidden relative">
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="appearance-none bg-white border border-slate-300 rounded-md shadow-sm px-4 py-2 pr-10 text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-india-blue focus:border-india-blue"
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                FY {year}
+              </option>
+            ))}
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 pointer-events-none" />
+        </div>
+
+        {/* Desktop: Button Group */}
+        <div className="hidden md:flex bg-white border border-slate-300 rounded-md shadow-sm">
+          {years.map((year) => (
+            <button
+              key={year}
+              onClick={() => setSelectedYear(year)}
+              className={`px-4 py-2 text-sm font-medium focus:outline-none first:rounded-l-md last:rounded-r-md border-r last:border-r-0 border-slate-300 transition-colors ${
+                selectedYear === year
+                  ? 'bg-india-blue text-white'
+                  : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              {year}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -172,7 +181,7 @@ export const Dashboard: React.FC = () => {
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
           <h3 className="text-lg font-bold text-slate-900 mb-4">
-            {searchQuery ? `Top Matches (${selectedYear})` : `Top 5 Expenditure Heads (${selectedYear})`}
+            {searchQuery ? `Top Matches (${selectedYear})` : `Top 7 Expenditure Heads (${selectedYear})`}
           </h3>
           
           {topMinistries.length > 0 ? (
@@ -202,12 +211,6 @@ export const Dashboard: React.FC = () => {
               <p className="text-sm">No ministries match your search.</p>
             </div>
           )}
-
-          <div className="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-100">
-            <p className="text-xs text-orange-800 font-medium leading-relaxed">
-              Comparison across years shows a consistent focus on Defence and Infrastructure sectors.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -219,13 +222,11 @@ export const Dashboard: React.FC = () => {
       {/* Rupee Movement */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h3 className="text-lg font-bold text-slate-900 mb-1">Rupee Comes From ({selectedYear})</h3>
-          <p className="text-sm text-slate-500 mb-4">Sources of Revenue</p>
+          <h3 className="text-lg font-bold text-slate-900 mb-1">Sources of Revenue ({selectedYear})</h3>
           <RupeeChart data={currentRupeeComesFrom} />
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h3 className="text-lg font-bold text-slate-900 mb-1">Rupee Goes To ({selectedYear})</h3>
-          <p className="text-sm text-slate-500 mb-4">Major Expenditure Heads</p>
+          <h3 className="text-lg font-bold text-slate-900 mb-1">Uses of Revenue ({selectedYear})</h3>
           <RupeeChart data={currentRupeeGoesTo} />
         </div>
       </div>
