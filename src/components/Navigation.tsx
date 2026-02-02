@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, BarChart3, PieChart, FileText, Home, Search, Github } from 'lucide-react';
+import { Menu, X, PieChart, FileText, Home, Search, Github } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppStore } from '../store';
 

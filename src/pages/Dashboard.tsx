@@ -16,7 +16,7 @@ export const Dashboard: React.FC = () => {
   const { searchQuery } = useAppStore();
   const [selectedYear, setSelectedYear] = useState<string>("2026-27");
 
-  const years = ["2026-27", "2025-26", "2024-25"];
+  const years = ["2026-27", "2025-26", "2024-25", "2023-24"];
 
   // Resolve data based on selected year
   const currentAllocations = selectedYear === "2026-27" 
@@ -33,9 +33,13 @@ export const Dashboard: React.FC = () => {
 
   // Get deficit stats, receipts, and expenditure data
   const currentDeficitStats = budgetData.historicalDeficitStats?.[selectedYear];
-  const previousDeficitStats = budgetData.historicalDeficitStats?.[
-    selectedYear === "2026-27" ? "2025-26" : selectedYear === "2025-26" ? "2024-25" : undefined as any
-  ];
+  const getPrevYear = (year: string): string | undefined => {
+    const map: Record<string, string> = { "2026-27": "2025-26", "2025-26": "2024-25", "2024-25": "2023-24" };
+    return map[year];
+  };
+  const previousDeficitStats = getPrevYear(selectedYear)
+    ? budgetData.historicalDeficitStats?.[getPrevYear(selectedYear)!]
+    : undefined;
   const currentReceipts = budgetData.historicalReceipts?.[selectedYear];
   const currentExpenditure = budgetData.historicalExpenditure?.[selectedYear];
 
@@ -45,10 +49,11 @@ export const Dashboard: React.FC = () => {
     return acc;
   }, {} as Record<string, typeof budgetData.fiscalTrends[0]>);
 
-  const yearMapping: Record<string, { prev: string; fiscalDesc: string; revenueDesc: string }> = {
+  const yearMapping: Record<string, { prev: string | undefined; fiscalDesc: string; revenueDesc: string }> = {
     "2026-27": { prev: "2025-26", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
     "2025-26": { prev: "2024-25", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
     "2024-25": { prev: "2023-24", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
+    "2023-24": { prev: undefined, fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
   };
 
   const currentFiscal = fiscalData[selectedYear] || fiscalData["2026-27 (BE)"];
