@@ -6,7 +6,8 @@ import { BudgetTrendChart } from '../components/Charts/BudgetTrendChart';
 import { AllocationsTable } from '../components/AllocationsTable';
 import { Download, AlertCircle, Calendar } from 'lucide-react';
 import { useAppStore } from '../store';
-import { budgetData } from '../data/budget-data';
+import { budgetData } from '../data';
+import { formatCrore } from '../utils/format';
 
 export const Dashboard: React.FC = () => {
   const { searchQuery } = useAppStore();
@@ -27,20 +28,45 @@ export const Dashboard: React.FC = () => {
     ? budgetData.rupeeGoesTo
     : budgetData.historicalRupeeGoesTo?.[selectedYear] || [];
 
-  const currentStats = selectedYear === "2026-27"
-    ? { 
-        fiscalDeficit: "4.3%", revenueDeficit: "2.8%", 
-        desc1: "Target for 2026-27 (BE)", desc2: "Consolidated Estimate"
-      }
-    : selectedYear === "2025-26"
-    ? { 
-        fiscalDeficit: "4.5%", revenueDeficit: "2.6%", 
-        desc1: "Revised Estimate", desc2: "Revised Estimate"
-      }
-    : { 
-        fiscalDeficit: "4.9%", revenueDeficit: "1.8%", 
-        desc1: "Actuals / BE", desc2: "Actuals / BE"
-      };
+  // Get fiscal data for selected year and previous year
+  const fiscalData = budgetData.fiscalTrends.reduce((acc, item) => {
+    acc[item.year] = item;
+    return acc;
+  }, {} as Record<string, typeof budgetData.fiscalTrends[0]>);
+
+  const yearMapping: Record<string, { prev: string; fiscalDesc: string; revenueDesc: string }> = {
+    "2026-27": { prev: "2025-26", fiscalDesc: "Target", revenueDesc: "Budget Estimate" },
+    "2025-26": { prev: "2024-25", fiscalDesc: "Revised Estimate", revenueDesc: "Revised Estimate" },
+    "2024-25": { prev: "2023-24", fiscalDesc: "Actuals", revenueDesc: "Actuals" },
+  };
+
+  const currentFiscal = fiscalData[selectedYear] || fiscalData["2026-27 (BE)"];
+  const prevYear = yearMapping[selectedYear]?.prev;
+  const prevFiscal = prevYear ? fiscalData[prevYear] : null;
+
+  // Calculate YoY changes
+  const fiscalDeficitYoY = prevFiscal
+    ? (currentFiscal.fiscalDeficit - prevFiscal.fiscalDeficit).toFixed(1)
+    : null;
+  const revenueDeficitYoY = prevFiscal
+    ? (currentFiscal.revenueDeficit - prevFiscal.revenueDeficit).toFixed(1)
+    : null;
+
+  const formatYoYPercent = (val: string | null) => {
+    if (!val) return undefined;
+    const num = parseFloat(val);
+    if (num === 0) return "0%";
+    return num > 0 ? `+${val}%` : `${val}%`;
+  };
+
+  const currentStats = {
+    fiscalDeficit: `${currentFiscal?.fiscalDeficit || 4.3}%`,
+    revenueDeficit: `${currentFiscal?.revenueDeficit || 2.8}%`,
+    fiscalDeficitYoY: formatYoYPercent(fiscalDeficitYoY),
+    revenueDeficitYoY: formatYoYPercent(revenueDeficitYoY),
+    fiscalDesc: yearMapping[selectedYear]?.fiscalDesc || "Estimate",
+    revenueDesc: yearMapping[selectedYear]?.revenueDesc || "Estimate",
+  };
 
   // Filter and sort allocations based on search
   const filteredAllocations = currentAllocations
@@ -49,9 +75,22 @@ export const Dashboard: React.FC = () => {
 
   // Take top 5 or less
   const topMinistries = filteredAllocations.slice(0, 5);
-  
+
   // Calculate max value for relative bar width (if no search results, avoid division by zero)
   const maxValue = topMinistries.length > 0 ? topMinistries[0].amountCrore : 1;
+
+  // Calculate YoY for top allocation
+  const getTopAllocationYoY = () => {
+    if (topMinistries.length === 0 || !prevYear) return undefined;
+    const currentTop = topMinistries[0];
+    const prevAllocations = budgetData.historicalAllocations?.[prevYear] || [];
+    const prevMinistry = prevAllocations.find(m => m.ministry === currentTop.ministry);
+    if (!prevMinistry) return undefined;
+    const change = ((currentTop.amountCrore - prevMinistry.amountCrore) / prevMinistry.amountCrore) * 100;
+    return change > 0 ? `+${change.toFixed(1)}%` : `${change.toFixed(1)}%`;
+  };
+
+  const topAllocationYoY = getTopAllocationYoY();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -87,31 +126,30 @@ export const Dashboard: React.FC = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard 
-          title="Fiscal Deficit" 
-          value={currentStats.fiscalDeficit} 
-          trend="down" 
-          trendValue="Target" 
-          description={currentStats.desc1} 
+        <StatsCard
+          title="Fiscal Deficit"
+          value={currentStats.fiscalDeficit}
+          description={`${currentStats.fiscalDesc} (% of GDP)`}
+          yoyChange={currentStats.fiscalDeficitYoY}
+          decreaseIsGood={true}
         />
-        <StatsCard 
-          title="Revenue Deficit" 
-          value={currentStats.revenueDeficit} 
-          trend="neutral" 
-          description={currentStats.desc2} 
+        <StatsCard
+          title="Revenue Deficit"
+          value={currentStats.revenueDeficit}
+          description={`${currentStats.revenueDesc} (% of GDP)`}
+          yoyChange={currentStats.revenueDeficitYoY}
+          decreaseIsGood={true}
         />
-        <StatsCard 
-          title="Top Allocation" 
-          value={topMinistries.length > 0 ? `₹${(topMinistries[0].amountCrore / 100000).toFixed(2)} L Cr` : "N/A"} 
-          trend="up" 
-          trendValue="Highest" 
-          description={topMinistries.length > 0 ? topMinistries[0].ministry : "Sector"} 
+        <StatsCard
+          title="Top Allocation"
+          value={topMinistries.length > 0 ? formatCrore(topMinistries[0].amountCrore, { compact: true }) : "N/A"}
+          description={topMinistries.length > 0 ? topMinistries[0].ministry : "Sector"}
+          yoyChange={topAllocationYoY}
         />
-        <StatsCard 
-          title="GDP Growth" 
-          value="~7%" 
-          trend="up" 
-          description="Projected Real GDP" 
+        <StatsCard
+          title="GDP Growth"
+          value="~7%"
+          description="Projected Real GDP"
         />
       </div>
 
@@ -130,17 +168,16 @@ export const Dashboard: React.FC = () => {
             <div className="space-y-4 flex-1">
               {topMinistries.map((m, i) => {
                 const widthPercentage = (m.amountCrore / maxValue) * 100;
-                const displayAmount = (m.amountCrore / 100000).toFixed(2); // Convert to Lakh Crore
-                
+
                 return (
                   <div key={i}>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="font-medium text-slate-700">{m.ministry}</span>
-                      <span className="text-slate-500">₹{displayAmount}L Cr</span>
+                      <span className="text-slate-500">{formatCrore(m.amountCrore, { compact: true })}</span>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-2">
-                      <div 
-                        className="bg-india-blue h-2 rounded-full transition-all duration-500 ease-out" 
+                      <div
+                        className="bg-india-blue h-2 rounded-full transition-all duration-500 ease-out"
                         style={{width: `${widthPercentage}%`}}
                       ></div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { budgetData } from '../data/budget-data';
+import { budgetData } from '../data';
 import { CheckCircle2, Factory, Leaf, Building2, Wallet, SearchX, Filter } from 'lucide-react';
 import { useAppStore } from '../store';
 

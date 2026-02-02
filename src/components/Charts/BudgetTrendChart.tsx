@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { budgetData } from '../../data/budget-data';
+import { budgetData } from '../../data';
 
 export const BudgetTrendChart: React.FC = () => {
   const data = Object.entries(budgetData.historicalStats || {}).map(([year, stats]) => ({

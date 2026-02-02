@@ -2,7 +2,8 @@ import React from 'react';
 import { useAppStore } from '../store';
 import { ArrowUpDown, ArrowUp, ArrowDown, Download, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { BudgetAllocation } from '../types';
-import { budgetData } from '../data/budget-data';
+import { budgetData } from '../data';
+import { formatCrore } from '../utils/format';
 
 interface Props {
   data?: BudgetAllocation[]; // Optional now, if omitted we build comparison data
@@ -156,21 +157,21 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
               
               <th className="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right cursor-pointer hover:bg-slate-100 transition-colors hidden md:table-cell" onClick={() => handleSort('amount2024')}>
                  <div className="flex items-center justify-end space-x-1">
-                   <span>2024-25</span>
+                   <span>2024-25 (₹ Cr)</span>
                    {sortField === 'amount2024' && (sortOrder === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
                 </div>
               </th>
-              
+
               <th className="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('amount2025')}>
                  <div className="flex items-center justify-end space-x-1">
-                   <span>2025-26</span>
+                   <span>2025-26 (₹ Cr)</span>
                    {sortField === 'amount2025' && (sortOrder === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />)}
                 </div>
               </th>
 
               <th className="p-4 text-xs font-semibold text-slate-900 uppercase tracking-wider text-right cursor-pointer hover:bg-slate-100 transition-colors border-l border-slate-200 pl-6" onClick={() => handleSort('amount2026')}>
                 <div className="flex items-center justify-end space-x-1">
-                   <span>2026-27 (BE)</span>
+                   <span>2026-27 BE (₹ Cr)</span>
                    {sortField === 'amount2026' || sortField === 'amountCrore' ? (
                     sortOrder === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />
                   ) : null}
@@ -193,21 +194,24 @@ export const AllocationsTable: React.FC<Props> = ({ data: initialData, year }) =
                   </td>
                   <td className="p-4">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                      ${item.category === 'Infrastructure' ? 'bg-blue-100 text-blue-800' : 
+                      ${item.category === 'Infrastructure' ? 'bg-blue-100 text-blue-800' :
                         item.category === 'Social' ? 'bg-green-100 text-green-800' :
                         item.category === 'Defense' ? 'bg-orange-100 text-orange-800' :
+                        item.category === 'Debt' ? 'bg-red-100 text-red-800' :
+                        item.category === 'Subsidies' ? 'bg-yellow-100 text-yellow-800' :
+                        item.category === 'Economic' ? 'bg-purple-100 text-purple-800' :
                         'bg-slate-100 text-slate-800'}`}>
                       {item.category}
                     </span>
                   </td>
                   <td className="p-4 text-right font-mono text-slate-500 text-sm hidden md:table-cell">
-                    {item.amount2024 ? `₹${(item.amount2024/1000).toFixed(0)}k` : '-'}
+                    {formatCrore(item.amount2024, { showSymbol: false })}
                   </td>
                   <td className="p-4 text-right font-mono text-slate-600 text-sm">
-                    {item.amount2025 ? `₹${(item.amount2025/1000).toFixed(0)}k` : '-'}
+                    {formatCrore(item.amount2025, { showSymbol: false })}
                   </td>
                   <td className="p-4 text-right font-mono text-slate-900 font-medium border-l border-slate-200 pl-6">
-                    {item.amount2026 ? `₹${(item.amount2026/1000).toFixed(0)}k` : '-'}
+                    {formatCrore(item.amount2026, { showSymbol: false })}
                   </td>
                   <td className="p-4 text-right">
                     <div className="flex items-center justify-end space-x-1">

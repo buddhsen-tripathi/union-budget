@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { ResponsiveContainer, Treemap, Tooltip } from 'recharts';
-import { budgetData } from '../data/budget-data';
+import { budgetData } from '../data';
 import { useAppStore } from '../store';
 import { Download, Calendar } from 'lucide-react';
+import { formatCrore } from '../utils/format';
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-3 border border-slate-100 shadow-xl rounded-lg z-50">
         <p className="font-bold text-slate-900">{payload[0].payload.name}</p>
-        <p className="text-india-blue font-mono">₹{payload[0].value.toLocaleString('en-IN')} Cr</p>
+        <p className="text-india-blue font-mono">{formatCrore(payload[0].value)}</p>
       </div>
     );
   }
@@ -45,7 +46,7 @@ const CustomizedContent = (props: any) => {
         <foreignObject x={x} y={y} width={width} height={height}>
           <div className="w-full h-full p-2 flex flex-col justify-center items-center text-white text-center overflow-hidden">
              <span className="font-bold text-xs leading-tight">{name}</span>
-             {height > 50 && <span className="text-[10px] mt-1 opacity-90">₹{(value/100000).toFixed(2)}L Cr</span>}
+             {height > 50 && <span className="text-[10px] mt-1 opacity-90">{formatCrore(value, { compact: true })}</span>}
           </div>
         </foreignObject>
       ) : null}
