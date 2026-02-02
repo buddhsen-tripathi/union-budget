@@ -55,6 +55,55 @@ export interface YearlyStats {
   effectiveCapitalExpenditure: AmountInCrore;
 }
 
+/** Detailed deficit statistics with values and % of GDP */
+export interface DeficitStats {
+  year: BudgetYear;
+  fiscalDeficit: { value: AmountInCrore; percentGDP: Percentage };
+  revenueDeficit: { value: AmountInCrore; percentGDP: Percentage };
+  effectiveRevenueDeficit: { value: AmountInCrore; percentGDP: Percentage };
+  primaryDeficit: { value: AmountInCrore; percentGDP: Percentage };
+}
+
+/** Detailed receipts breakdown */
+export interface ReceiptsBreakdown {
+  year: BudgetYear;
+  grossTaxRevenue: AmountInCrore;
+  taxComposition: {
+    corporationTax: AmountInCrore;
+    incomeTax: AmountInCrore;
+    customs: AmountInCrore;
+    unionExciseDuties: AmountInCrore;
+    gst: AmountInCrore;
+    otherTaxes: AmountInCrore;
+  };
+  statesShare: AmountInCrore;
+  netTaxRevenue: AmountInCrore;
+  nonTaxRevenue: AmountInCrore;
+  totalRevenueReceipts: AmountInCrore;
+  capitalReceipts: {
+    nonDebt: AmountInCrore;
+    debt: AmountInCrore;
+    total: AmountInCrore;
+  };
+  totalReceipts: AmountInCrore;
+}
+
+/** Government expenditure structure breakdown */
+export interface ExpenditureBreakdown {
+  year: BudgetYear;
+  establishmentExpenditure: AmountInCrore;
+  centralSectorSchemes: AmountInCrore;
+  otherCentralSector: AmountInCrore;
+  interestPayments: AmountInCrore;
+  centrallySponsoredSchemes: AmountInCrore;
+  financeCommissionGrants: AmountInCrore;
+  otherTransfers: AmountInCrore;
+  totalExpenditure: AmountInCrore;
+  capitalExpenditure: AmountInCrore;
+  grantsForCapitalAssets: AmountInCrore;
+  effectiveCapitalExpenditure: AmountInCrore;
+}
+
 /** Generic type for historical data indexed by year */
 type HistoricalData<T> = Record<BudgetYear, T>;
 
@@ -68,6 +117,9 @@ export interface BudgetData {
   historicalAllocations?: HistoricalData<BudgetAllocation[]>;
   historicalRupeeComesFrom?: HistoricalData<RupeeFlow[]>;
   historicalRupeeGoesTo?: HistoricalData<RupeeFlow[]>;
+  historicalDeficitStats?: HistoricalData<DeficitStats>;
+  historicalReceipts?: HistoricalData<ReceiptsBreakdown>;
+  historicalExpenditure?: HistoricalData<ExpenditureBreakdown>;
 }
 
 export type SortField = 'ministry' | 'amountCrore' | 'amount2024' | 'amount2025' | 'amount2026';

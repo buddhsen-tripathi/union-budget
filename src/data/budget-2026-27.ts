@@ -1,7 +1,8 @@
-import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear } from '../types';
+import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear, DeficitStats, ReceiptsBreakdown, ExpenditureBreakdown } from '../types';
 
 export const YEAR: BudgetYear = "2026-27";
 
+// 2026-27 Budget Estimates (BE) - from 2026-27 Budget document
 export const allocations: BudgetAllocation[] = [
   // Major expenditure heads (sorted by amount)
   { ministry: "Interest Payments", amountCrore: 1403972, category: "Debt", year: YEAR },
@@ -113,4 +114,53 @@ export const stats: YearlyStats = {
   capitalReceipts: 15.9,
   revenueExpenditure: 42.1,
   effectiveCapitalExpenditure: 16.2,
+};
+
+// Official Deficit Statistics (2026-27 Budget Estimates)
+export const deficitStats: DeficitStats = {
+  year: YEAR,
+  fiscalDeficit: { value: 1695768, percentGDP: 4.3 },
+  revenueDeficit: { value: 592344, percentGDP: 1.5 },
+  effectiveRevenueDeficit: { value: 99642, percentGDP: 0.3 },
+  primaryDeficit: { value: 291796, percentGDP: 0.7 },
+};
+
+// Official Receipts Breakdown (2026-27 Budget Estimates)
+export const receiptsBreakdown: ReceiptsBreakdown = {
+  year: YEAR,
+  grossTaxRevenue: 4404086,
+  taxComposition: {
+    corporationTax: 1231000,
+    incomeTax: 1466000,
+    customs: 271200,
+    unionExciseDuties: 388910,
+    gst: 1019020,
+    otherTaxes: 17700,
+  },
+  statesShare: 1526255,
+  netTaxRevenue: 2866922,
+  nonTaxRevenue: 666228,
+  totalRevenueReceipts: 3533150,
+  capitalReceipts: {
+    nonDebt: 118397,
+    debt: 1695768,
+    total: 1814165,
+  },
+  totalReceipts: 5347315,
+};
+
+// Official Expenditure Breakdown (2026-27 Budget Estimates)
+export const expenditureBreakdown: ExpenditureBreakdown = {
+  year: YEAR,
+  establishmentExpenditure: 824114,
+  centralSectorSchemes: 1771928,
+  otherCentralSector: 1761387,
+  interestPayments: 1403972,
+  centrallySponsoredSchemes: 548798,
+  financeCommissionGrants: 129397,
+  otherTransfers: 311691,
+  totalExpenditure: 5347315,
+  capitalExpenditure: 1221821,
+  grantsForCapitalAssets: 492702,
+  effectiveCapitalExpenditure: 1714523,
 };

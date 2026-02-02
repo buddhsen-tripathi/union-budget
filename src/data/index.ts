@@ -48,6 +48,21 @@ export const budgetData: BudgetData = {
     [budget2025.YEAR]: budget2025.rupeeGoesTo,
     [budget2026.YEAR]: budget2026.rupeeGoesTo,
   },
+  historicalDeficitStats: {
+    [budget2024.YEAR]: budget2024.deficitStats,
+    [budget2025.YEAR]: budget2025.deficitStats,
+    [budget2026.YEAR]: budget2026.deficitStats,
+  },
+  historicalReceipts: {
+    [budget2024.YEAR]: budget2024.receiptsBreakdown,
+    [budget2025.YEAR]: budget2025.receiptsBreakdown,
+    [budget2026.YEAR]: budget2026.receiptsBreakdown,
+  },
+  historicalExpenditure: {
+    [budget2024.YEAR]: budget2024.expenditureBreakdown,
+    [budget2025.YEAR]: budget2025.expenditureBreakdown,
+    [budget2026.YEAR]: budget2026.expenditureBreakdown,
+  },
 };
 
 /** Export individual year modules for direct access */

@@ -3,6 +3,9 @@ import { StatsCard } from '../components/StatsCard';
 import { FiscalChart } from '../components/Charts/FiscalChart';
 import { RupeeChart } from '../components/Charts/RupeeChart';
 import { BudgetTrendChart } from '../components/Charts/BudgetTrendChart';
+import { DeficitStatsCard } from '../components/Charts/DeficitStatsCard';
+import { ReceiptsChart } from '../components/Charts/ReceiptsChart';
+import { ExpenditureStructureChart } from '../components/Charts/ExpenditureStructureChart';
 import { AllocationsTable } from '../components/AllocationsTable';
 import { Download, AlertCircle, Calendar } from 'lucide-react';
 import { useAppStore } from '../store';
@@ -28,6 +31,14 @@ export const Dashboard: React.FC = () => {
     ? budgetData.rupeeGoesTo
     : budgetData.historicalRupeeGoesTo?.[selectedYear] || [];
 
+  // Get deficit stats, receipts, and expenditure data
+  const currentDeficitStats = budgetData.historicalDeficitStats?.[selectedYear];
+  const previousDeficitStats = budgetData.historicalDeficitStats?.[
+    selectedYear === "2026-27" ? "2025-26" : selectedYear === "2025-26" ? "2024-25" : undefined as any
+  ];
+  const currentReceipts = budgetData.historicalReceipts?.[selectedYear];
+  const currentExpenditure = budgetData.historicalExpenditure?.[selectedYear];
+
   // Get fiscal data for selected year and previous year
   const fiscalData = budgetData.fiscalTrends.reduce((acc, item) => {
     acc[item.year] = item;
@@ -35,9 +46,9 @@ export const Dashboard: React.FC = () => {
   }, {} as Record<string, typeof budgetData.fiscalTrends[0]>);
 
   const yearMapping: Record<string, { prev: string; fiscalDesc: string; revenueDesc: string }> = {
-    "2026-27": { prev: "2025-26", fiscalDesc: "Target", revenueDesc: "Budget Estimate" },
-    "2025-26": { prev: "2024-25", fiscalDesc: "Revised Estimate", revenueDesc: "Revised Estimate" },
-    "2024-25": { prev: "2023-24", fiscalDesc: "Actuals", revenueDesc: "Actuals" },
+    "2026-27": { prev: "2025-26", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
+    "2025-26": { prev: "2024-25", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
+    "2024-25": { prev: "2023-24", fiscalDesc: "Budget Estimate", revenueDesc: "Budget Estimate" },
   };
 
   const currentFiscal = fiscalData[selectedYear] || fiscalData["2026-27 (BE)"];
@@ -124,34 +135,29 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          title="Fiscal Deficit"
-          value={currentStats.fiscalDeficit}
-          description={`${currentStats.fiscalDesc} (% of GDP)`}
-          yoyChange={currentStats.fiscalDeficitYoY}
-          decreaseIsGood={true}
-        />
-        <StatsCard
-          title="Revenue Deficit"
-          value={currentStats.revenueDeficit}
-          description={`${currentStats.revenueDesc} (% of GDP)`}
-          yoyChange={currentStats.revenueDeficitYoY}
-          decreaseIsGood={true}
-        />
-        <StatsCard
-          title="Top Allocation"
-          value={topMinistries.length > 0 ? formatCrore(topMinistries[0].amountCrore, { compact: true }) : "N/A"}
-          description={topMinistries.length > 0 ? topMinistries[0].ministry : "Sector"}
-          yoyChange={topAllocationYoY}
-        />
-        <StatsCard
-          title="GDP Growth"
-          value="~7%"
-          description="Projected Real GDP"
-        />
-      </div>
+      {/* Deficit Stats Hero Section */}
+      {currentDeficitStats && (
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 mb-4">Deficit Indicators ({selectedYear})</h3>
+          <DeficitStatsCard data={currentDeficitStats} previousYearData={previousDeficitStats} />
+        </div>
+      )}
+
+      {/* Receipts Breakdown */}
+      {currentReceipts && (
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 mb-4">Revenue & Receipts ({selectedYear})</h3>
+          <ReceiptsChart data={currentReceipts} />
+        </div>
+      )}
+
+      {/* Expenditure Structure */}
+      {currentExpenditure && (
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 mb-4">Expenditure Structure ({selectedYear})</h3>
+          <ExpenditureStructureChart data={currentExpenditure} />
+        </div>
+      )}
 
       {/* Charts Section 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -161,7 +167,7 @@ export const Dashboard: React.FC = () => {
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
           <h3 className="text-lg font-bold text-slate-900 mb-4">
-            {searchQuery ? `Top Matches (${selectedYear})` : `Top 5 Ministries (${selectedYear})`}
+            {searchQuery ? `Top Matches (${selectedYear})` : `Top 5 Expenditure Heads (${selectedYear})`}
           </h3>
           
           {topMinistries.length > 0 ? (

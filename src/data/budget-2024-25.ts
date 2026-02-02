@@ -1,8 +1,8 @@
-import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear } from '../types';
+import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear, DeficitStats, ReceiptsBreakdown, ExpenditureBreakdown } from '../types';
 
 export const YEAR: BudgetYear = "2024-25";
 
-// 2024-25 Actuals
+// 2024-25 Budget Estimates (BE) - from 2024-25 Budget document
 export const allocations: BudgetAllocation[] = [
   { ministry: "Interest Payments", amountCrore: 1115575, category: "Debt", year: YEAR },
   { ministry: "Transport", amountCrore: 560162, category: "Infrastructure", year: YEAR },
@@ -98,4 +98,53 @@ export const stats: YearlyStats = {
   capitalReceipts: 16.9,
   revenueExpenditure: 37.1,
   effectiveCapitalExpenditure: 15.0,
+};
+
+// Official Deficit Statistics (2024-25 Budget Estimates)
+export const deficitStats: DeficitStats = {
+  year: YEAR,
+  fiscalDeficit: { value: 1613312, percentGDP: 4.9 },
+  revenueDeficit: { value: 580201, percentGDP: 1.8 },
+  effectiveRevenueDeficit: { value: 189423, percentGDP: 0.6 },
+  primaryDeficit: { value: 450372, percentGDP: 1.4 },
+};
+
+// Official Receipts Breakdown (2024-25 Budget Estimates)
+export const receiptsBreakdown: ReceiptsBreakdown = {
+  year: YEAR,
+  grossTaxRevenue: 3840170,
+  taxComposition: {
+    corporationTax: 1020000,
+    incomeTax: 1187000,
+    customs: 237745,
+    unionExciseDuties: 319000,
+    gst: 1061899,
+    otherTaxes: 14426,
+  },
+  statesShare: 1247211,
+  netTaxRevenue: 2583499,
+  nonTaxRevenue: 545701,
+  totalRevenueReceipts: 3129200,
+  capitalReceipts: {
+    nonDebt: 78000,
+    debt: 1613312,
+    total: 1691312,
+  },
+  totalReceipts: 4820512,
+};
+
+// Official Expenditure Breakdown (2024-25 Budget Estimates)
+export const expenditureBreakdown: ExpenditureBreakdown = {
+  year: YEAR,
+  establishmentExpenditure: 783618,
+  centralSectorSchemes: 1516176,
+  otherCentralSector: 1490586,
+  interestPayments: 1162940,
+  centrallySponsoredSchemes: 505978,
+  financeCommissionGrants: 132378,
+  otherTransfers: 391776,
+  totalExpenditure: 4820512,
+  capitalExpenditure: 1111111,
+  grantsForCapitalAssets: 390778,
+  effectiveCapitalExpenditure: 1501889,
 };
