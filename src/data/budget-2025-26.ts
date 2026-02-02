@@ -2,30 +2,30 @@ import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear, 
 
 export const YEAR: BudgetYear = "2025-26";
 
-// 2025-26 Budget Estimates (BE) - from 2025-26 Budget document
+// 2025-26 Budget Estimates (BE) - from Major Expenditure document
 export const allocations: BudgetAllocation[] = [
-  { ministry: "Interest Payments", amountCrore: 1274338, category: "Debt", year: YEAR },
-  { ministry: "Defence", amountCrore: 567855, category: "Defense", year: YEAR },
-  { ministry: "Pension", amountCrore: 286641, category: "Social", year: YEAR },
-  { ministry: "Home Affairs", amountCrore: 241485, category: "Administration", year: YEAR },
-  { ministry: "Food Subsidy", amountCrore: 228154, category: "Subsidies", year: YEAR },
-  { ministry: "Rural Development", amountCrore: 212750, category: "Social", year: YEAR },
-  { ministry: "Fertiliser Subsidy", amountCrore: 186460, category: "Subsidies", year: YEAR },
-  { ministry: "Agriculture and Allied Activities", amountCrore: 151853, category: "Economic", year: YEAR },
-  { ministry: "Education", amountCrore: 121949, category: "Social", year: YEAR },
-  { ministry: "Finance", amountCrore: 112175, category: "Administration", year: YEAR },
-  { ministry: "Health", amountCrore: 94625, category: "Social", year: YEAR },
-  { ministry: "Energy", amountCrore: 86471, category: "Infrastructure", year: YEAR },
-  { ministry: "Urban Development", amountCrore: 57204, category: "Infrastructure", year: YEAR },
-  { ministry: "IT and Telecom", amountCrore: 53946, category: "Infrastructure", year: YEAR },
-  { ministry: "Commerce and Industry", amountCrore: 52324, category: "Economic", year: YEAR },
-  { ministry: "Social Welfare", amountCrore: 50053, category: "Social", year: YEAR },
-  { ministry: "Transport", amountCrore: 547563, category: "Infrastructure", year: YEAR },
-  { ministry: "Scientific Departments", amountCrore: 37014, category: "Economic", year: YEAR },
-  { ministry: "External Affairs", amountCrore: 21743, category: "Administration", year: YEAR },
-  { ministry: "Petroleum Subsidy", amountCrore: 15121, category: "Subsidies", year: YEAR },
-  { ministry: "Tax Administration", amountCrore: 74540, category: "Administration", year: YEAR },
-  { ministry: "Development of North East", amountCrore: 4479, category: "Infrastructure", year: YEAR },
+  { ministry: "Interest Payments", amountCrore: 1276338, category: "Debt", year: YEAR },
+  { ministry: "Transport", amountCrore: 548649, category: "Infrastructure", year: YEAR },
+  { ministry: "Defence", amountCrore: 491732, category: "Defense", year: YEAR },
+  { ministry: "Pension", amountCrore: 276618, category: "Social", year: YEAR },
+  { ministry: "Rural Development", amountCrore: 266817, category: "Social", year: YEAR },
+  { ministry: "Home Affairs", amountCrore: 233211, category: "Administration", year: YEAR },
+  { ministry: "Food Subsidy", amountCrore: 203420, category: "Subsidies", year: YEAR },
+  { ministry: "Tax Administration", amountCrore: 186632, category: "Administration", year: YEAR },
+  { ministry: "Agriculture and Allied Activities", amountCrore: 171437, category: "Economic", year: YEAR },
+  { ministry: "Fertiliser Subsidy", amountCrore: 167887, category: "Subsidies", year: YEAR },
+  { ministry: "Education", amountCrore: 128650, category: "Social", year: YEAR },
+  { ministry: "Health", amountCrore: 98311, category: "Social", year: YEAR },
+  { ministry: "Urban Development", amountCrore: 96777, category: "Infrastructure", year: YEAR },
+  { ministry: "IT and Telecom", amountCrore: 95298, category: "Infrastructure", year: YEAR },
+  { ministry: "Energy", amountCrore: 81174, category: "Infrastructure", year: YEAR },
+  { ministry: "Commerce and Industry", amountCrore: 65553, category: "Economic", year: YEAR },
+  { ministry: "Finance", amountCrore: 62924, category: "Administration", year: YEAR },
+  { ministry: "Social Welfare", amountCrore: 60052, category: "Social", year: YEAR },
+  { ministry: "Scientific Departments", amountCrore: 55679, category: "Economic", year: YEAR },
+  { ministry: "External Affairs", amountCrore: 20517, category: "Administration", year: YEAR },
+  { ministry: "Petroleum Subsidy", amountCrore: 12100, category: "Subsidies", year: YEAR },
+  { ministry: "Development of North East", amountCrore: 5915, category: "Infrastructure", year: YEAR },
 ];
 
 export const rupeeComesFrom: RupeeFlow[] = [
@@ -109,7 +109,21 @@ export const deficitStats: DeficitStats = {
   primaryDeficit: { value: 292598, percentGDP: 0.8 },
 };
 
-// Official Receipts Breakdown (2025-26 Budget Estimates)
+// Sources of Financing Fiscal Deficit (2025-26 Budget Estimates)
+export const fiscalDeficitSources = {
+  year: YEAR,
+  debtReceiptsNet: 1566452,
+  marketBorrowings: 1153834,
+  shortTermBorrowing: 0, // T-Bills etc.
+  securitiesAgainstSmallSavings: 343382,
+  stateProvidentFunds: 5000,
+  otherInternalDebts: 40746,
+  externalDebt: 23490,
+  drawDownCashBalance: 2484,
+  total: 1568936,
+};
+
+// Official Receipts Breakdown (2025-26 Budget Estimates) - from Revenue Receipts document
 export const receiptsBreakdown: ReceiptsBreakdown = {
   year: YEAR,
   grossTaxRevenue: 4270233,
@@ -118,8 +132,8 @@ export const receiptsBreakdown: ReceiptsBreakdown = {
     incomeTax: 1438000,
     customs: 240000,
     unionExciseDuties: 317000,
-    gst: 1178000,
-    otherTaxes: 15233,
+    gst: 1178000, // CGST (1010890) + GST Compensation Cess (167110)
+    otherTaxes: 15233, // Service Tax (100) + Taxes of Union Territories (10133) + Other Taxes (5000)
   },
   statesShare: 1422444,
   netTaxRevenue: 2837409,
@@ -127,13 +141,13 @@ export const receiptsBreakdown: ReceiptsBreakdown = {
   totalRevenueReceipts: 3420409,
   capitalReceipts: {
     nonDebt: 76000,
-    debt: 1568936,
-    total: 1644936,
+    debt: 1566452, // Debt Receipts
+    total: 1642452, // Total Capital Receipts (A+B)
   },
-  totalReceipts: 5065345,
+  totalReceipts: 5065345, // Total Receipts (1a+2+3+4)
 };
 
-// Official Expenditure Breakdown (2025-26 Budget Estimates)
+// Official Expenditure Breakdown (2025-26 Budget Estimates) - from Centre's Expenditure document
 export const expenditureBreakdown: ExpenditureBreakdown = {
   year: YEAR,
   establishmentExpenditure: 868096,
@@ -146,5 +160,5 @@ export const expenditureBreakdown: ExpenditureBreakdown = {
   totalExpenditure: 5065345,
   capitalExpenditure: 1121090,
   grantsForCapitalAssets: 427192,
-  effectiveCapitalExpenditure: 1548282,
+  effectiveCapitalExpenditure: 1548282, // Capital (1121090) + Grants (427192)
 };

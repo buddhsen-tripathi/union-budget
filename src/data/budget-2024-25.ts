@@ -2,30 +2,32 @@ import { BudgetAllocation, RupeeFlow, PolicyHighlight, YearlyStats, BudgetYear, 
 
 export const YEAR: BudgetYear = "2024-25";
 
-// 2024-25 Budget Estimates (BE) - from 2024-25 Budget document
+// 2024-25 Budget Estimates (BE) - from Major Expenditure document
 export const allocations: BudgetAllocation[] = [
-  { ministry: "Interest Payments", amountCrore: 1115575, category: "Debt", year: YEAR },
-  { ministry: "Transport", amountCrore: 560162, category: "Infrastructure", year: YEAR },
-  { ministry: "Defence", amountCrore: 450733, category: "Defense", year: YEAR },
-  { ministry: "Pension", amountCrore: 273772, category: "Social", year: YEAR },
-  { ministry: "Home Affairs", amountCrore: 224585, category: "Administration", year: YEAR },
-  { ministry: "Rural Development", amountCrore: 206010, category: "Social", year: YEAR },
-  { ministry: "Tax Administration", amountCrore: 202772, category: "Administration", year: YEAR },
-  { ministry: "Food Subsidy", amountCrore: 199867, category: "Subsidies", year: YEAR },
-  { ministry: "Fertiliser Subsidy", amountCrore: 170683, category: "Subsidies", year: YEAR },
-  { ministry: "Agriculture and Allied Activities", amountCrore: 154610, category: "Economic", year: YEAR },
-  { ministry: "IT and Telecom", amountCrore: 117163, category: "Infrastructure", year: YEAR },
-  { ministry: "Education", amountCrore: 110736, category: "Social", year: YEAR },
-  { ministry: "Health", amountCrore: 88353, category: "Social", year: YEAR },
-  { ministry: "Energy", amountCrore: 66052, category: "Infrastructure", year: YEAR },
-  { ministry: "Finance", amountCrore: 58217, category: "Administration", year: YEAR },
-  { ministry: "Urban Development", amountCrore: 53255, category: "Infrastructure", year: YEAR },
-  { ministry: "Social Welfare", amountCrore: 45804, category: "Social", year: YEAR },
-  { ministry: "Commerce and Industry", amountCrore: 44446, category: "Economic", year: YEAR },
-  { ministry: "Scientific Departments", amountCrore: 27518, category: "Economic", year: YEAR },
-  { ministry: "External Affairs", amountCrore: 25512, category: "Administration", year: YEAR },
-  { ministry: "Petroleum Subsidy", amountCrore: 14479, category: "Subsidies", year: YEAR },
-  { ministry: "Development of North East", amountCrore: 3371, category: "Infrastructure", year: YEAR },
+  { ministry: "Interest Payments", amountCrore: 1162940, category: "Debt", year: YEAR },
+  { ministry: "Transport", amountCrore: 544128, category: "Infrastructure", year: YEAR },
+  { ministry: "Defence", amountCrore: 454773, category: "Defense", year: YEAR },
+  { ministry: "Rural Development", amountCrore: 265808, category: "Social", year: YEAR },
+  { ministry: "Pension", amountCrore: 243296, category: "Social", year: YEAR },
+  { ministry: "Food Subsidy", amountCrore: 205250, category: "Subsidies", year: YEAR },
+  { ministry: "Tax Administration", amountCrore: 203530, category: "Administration", year: YEAR },
+  { ministry: "Fertiliser Subsidy", amountCrore: 164000, category: "Subsidies", year: YEAR },
+  { ministry: "Agriculture and Allied Activities", amountCrore: 151851, category: "Economic", year: YEAR },
+  { ministry: "Home Affairs", amountCrore: 150983, category: "Administration", year: YEAR },
+  { ministry: "Education", amountCrore: 125638, category: "Social", year: YEAR },
+  { ministry: "IT and Telecom", amountCrore: 116342, category: "Infrastructure", year: YEAR },
+  { ministry: "Health", amountCrore: 89287, category: "Social", year: YEAR },
+  { ministry: "Finance", amountCrore: 86339, category: "Administration", year: YEAR },
+  { ministry: "Urban Development", amountCrore: 82577, category: "Infrastructure", year: YEAR },
+  { ministry: "Energy", amountCrore: 68769, category: "Infrastructure", year: YEAR },
+  { ministry: "Union Territories", amountCrore: 68660, category: "Administration", year: YEAR },
+  { ministry: "Social Welfare", amountCrore: 56501, category: "Social", year: YEAR },
+  { ministry: "Commerce and Industry", amountCrore: 47559, category: "Economic", year: YEAR },
+  { ministry: "Scientific Departments", amountCrore: 32736, category: "Economic", year: YEAR },
+  { ministry: "External Affairs", amountCrore: 22155, category: "Administration", year: YEAR },
+  { ministry: "Petroleum Subsidy", amountCrore: 11925, category: "Subsidies", year: YEAR },
+  { ministry: "Planning and Statistics", amountCrore: 6291, category: "Administration", year: YEAR },
+  { ministry: "Development of North East", amountCrore: 5900, category: "Infrastructure", year: YEAR },
 ];
 
 export const rupeeComesFrom: RupeeFlow[] = [
@@ -109,7 +111,21 @@ export const deficitStats: DeficitStats = {
   primaryDeficit: { value: 450372, percentGDP: 1.4 },
 };
 
-// Official Receipts Breakdown (2024-25 Budget Estimates)
+// Sources of Financing Fiscal Deficit (2024-25 Budget Estimates)
+export const fiscalDeficitSources = {
+  year: YEAR,
+  debtReceiptsNet: 1472915,
+  marketBorrowings: 1163182,
+  shortTermBorrowing: -50000, // T-Bills etc.
+  securitiesAgainstSmallSavings: 420063,
+  stateProvidentFunds: 5000,
+  otherInternalDebts: -81282,
+  externalDebt: 15952,
+  drawDownCashBalance: 140397,
+  total: 1613312,
+};
+
+// Official Receipts Breakdown (2024-25 Budget Estimates) - from Revenue Receipts document
 export const receiptsBreakdown: ReceiptsBreakdown = {
   year: YEAR,
   grossTaxRevenue: 3840170,
@@ -118,8 +134,8 @@ export const receiptsBreakdown: ReceiptsBreakdown = {
     incomeTax: 1187000,
     customs: 237745,
     unionExciseDuties: 319000,
-    gst: 1061899,
-    otherTaxes: 14426,
+    gst: 1061899, // CGST (910890) + GST Compensation Cess (151009)
+    otherTaxes: 14526, // Service Tax (100) + Taxes of Union Territories (9426) + Other Taxes (5000)
   },
   statesShare: 1247211,
   netTaxRevenue: 2583499,
@@ -127,10 +143,10 @@ export const receiptsBreakdown: ReceiptsBreakdown = {
   totalRevenueReceipts: 3129200,
   capitalReceipts: {
     nonDebt: 78000,
-    debt: 1613312,
-    total: 1691312,
+    debt: 1472915, // Debt Receipts
+    total: 1550915, // Total Capital Receipts (A+B)
   },
-  totalReceipts: 4820512,
+  totalReceipts: 4680115, // Total Receipts (1a+2+3)
 };
 
 // Official Expenditure Breakdown (2024-25 Budget Estimates)
