@@ -57,7 +57,7 @@ const CustomizedContent = (props: any) => {
 export const AllocationExplorer: React.FC = () => {
     const { searchQuery } = useAppStore();
     const [selectedYear, setSelectedYear] = useState<string>("2026-27");
-    const years = ["2026-27", "2025-26", "2024-25"];
+    const years = ["2026-27", "2025-26", "2024-25", "2023-24"];
 
     const currentAllocations = selectedYear === "2026-27" 
       ? budgetData.allocations 
@@ -94,9 +94,6 @@ export const AllocationExplorer: React.FC = () => {
                   {year}
                 </button>
               ))}
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-slate-400 hidden sm:flex">
-                <span>Size represents Allocation Amount</span>
             </div>
         </div>
        </div>
