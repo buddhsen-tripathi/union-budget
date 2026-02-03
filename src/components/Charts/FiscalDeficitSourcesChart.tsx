@@ -172,13 +172,6 @@ export const FiscalDeficitSourcesChart: React.FC<FiscalDeficitSourcesChartProps>
             <span className="font-bold text-lg">₹{formatLakhCrore(data.total)}</span>
           </div>
         </div>
-
-        <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-          <p className="text-xs text-blue-700">
-            <strong>Note:</strong> Market borrowings typically form the largest source of deficit financing,
-            followed by securities against small savings. Negative values indicate net repayments.
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -96,19 +96,6 @@ export const Dashboard: React.FC = () => {
   // Calculate max value for relative bar width (if no search results, avoid division by zero)
   const maxValue = topMinistries.length > 0 ? topMinistries[0].amountCrore : 1;
 
-  // Calculate YoY for top allocation
-  const getTopAllocationYoY = () => {
-    if (topMinistries.length === 0 || !prevYear) return undefined;
-    const currentTop = topMinistries[0];
-    const prevAllocations = budgetData.historicalAllocations?.[prevYear] || [];
-    const prevMinistry = prevAllocations.find(m => m.ministry === currentTop.ministry);
-    if (!prevMinistry) return undefined;
-    const change = ((currentTop.amountCrore - prevMinistry.amountCrore) / prevMinistry.amountCrore) * 100;
-    return change > 0 ? `+${change.toFixed(1)}%` : `${change.toFixed(1)}%`;
-  };
-
-  const topAllocationYoY = getTopAllocationYoY();
-
   // Get total allocation for selected year from pre-calculated data
   const totalAllocation = budgetData.historicalTotalAllocations?.[selectedYear] || 0;
 
@@ -159,7 +146,7 @@ export const Dashboard: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <p className="text-blue-100 text-sm font-medium uppercase tracking-wider">Total Budget Allocation</p>
-            <p className="text-3xl md:text-4xl font-bold mt-1">{selectedYear !== "2026-27" && "~"}{formatCrore(totalAllocation)}</p>
+            <p className="text-3xl md:text-4xl font-bold mt-1">~{formatCrore(totalAllocation)}</p>
           </div>
           <div className="text-right">
             <p className="text-blue-100 text-sm">FY {selectedYear}</p>
