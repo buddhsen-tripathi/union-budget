@@ -29,6 +29,9 @@ export const allocations: BudgetAllocation[] = [
   { ministry: "Development of North East", amountCrore: 6812, category: "Infrastructure", year: YEAR },
 ];
 
+// Total budget allocation for the year (official figure)
+export const totalAllocation = 5347315;
+
 export const rupeeComesFrom: RupeeFlow[] = [
   { label: "Borrowings & Liabilities", percentage: 24, color: "#475569", year: YEAR },
   { label: "Income Tax", percentage: 21, color: "#138808", year: YEAR },
@@ -123,6 +126,20 @@ export const deficitStats: DeficitStats = {
   revenueDeficit: { value: 592344, percentGDP: 1.5 },
   effectiveRevenueDeficit: { value: 99642, percentGDP: 0.3 },
   primaryDeficit: { value: 291796, percentGDP: 0.7 },
+};
+
+// Sources of Financing Fiscal Deficit (2026-27 Budget Estimates)
+export const fiscalDeficitSources = {
+  year: YEAR,
+  debtReceiptsNet: 1663066,
+  marketBorrowings: 1173210,
+  shortTermBorrowing: 130000,
+  securitiesAgainstSmallSavings: 386772,
+  stateProvidentFunds: 3500,
+  otherInternalDebts: -45801,
+  externalDebt: 15385,
+  drawDownCashBalance: 32702,
+  total: 1695768,
 };
 
 // Official Receipts Breakdown (2026-27 Budget Estimates)

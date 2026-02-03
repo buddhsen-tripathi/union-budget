@@ -104,6 +104,20 @@ export interface ExpenditureBreakdown {
   effectiveCapitalExpenditure: AmountInCrore;
 }
 
+/** Sources of financing fiscal deficit */
+export interface FiscalDeficitSources {
+  year: BudgetYear;
+  debtReceiptsNet: AmountInCrore;
+  marketBorrowings: AmountInCrore;
+  shortTermBorrowing?: AmountInCrore;
+  securitiesAgainstSmallSavings: AmountInCrore;
+  stateProvidentFunds: AmountInCrore;
+  otherInternalDebts: AmountInCrore;
+  externalDebt: AmountInCrore;
+  drawDownCashBalance: AmountInCrore;
+  total: AmountInCrore;
+}
+
 /** Generic type for historical data indexed by year */
 type HistoricalData<T> = Record<BudgetYear, T>;
 
@@ -120,6 +134,9 @@ export interface BudgetData {
   historicalDeficitStats?: HistoricalData<DeficitStats>;
   historicalReceipts?: HistoricalData<ReceiptsBreakdown>;
   historicalExpenditure?: HistoricalData<ExpenditureBreakdown>;
+  historicalFiscalDeficitSources?: HistoricalData<FiscalDeficitSources>;
+  historicalTotalAllocations?: HistoricalData<AmountInCrore>;
+  totalAllocation?: AmountInCrore;
 }
 
 export type SortField = 'ministry' | 'amountCrore' | 'amount2023' | 'amount2024' | 'amount2025' | 'amount2026';

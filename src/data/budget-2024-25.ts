@@ -30,6 +30,9 @@ export const allocations: BudgetAllocation[] = [
   { ministry: "Development of North East", amountCrore: 5900, category: "Infrastructure", year: YEAR },
 ];
 
+// Total budget allocation for the year (official figure)
+export const totalAllocation = 4964842;
+
 export const rupeeComesFrom: RupeeFlow[] = [
   { label: "Borrowings & Liabilities", percentage: 27, color: "#475569", year: YEAR },
   { label: "Income Tax", percentage: 19, color: "#138808", year: YEAR },

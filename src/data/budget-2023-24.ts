@@ -31,6 +31,9 @@ export const allocations: BudgetAllocation[] = [
   { ministry: "Petroleum Subsidy", amountCrore: 2257, category: "Subsidies", year: YEAR },
 ];
 
+// Total budget allocation for the year (official figure)
+export const totalAllocation = 4652867;
+
 export const rupeeComesFrom: RupeeFlow[] = [
   { label: "Borrowings & Liabilities", percentage: 34, color: "#475569", year: YEAR },
   { label: "Income Tax", percentage: 15, color: "#138808", year: YEAR },

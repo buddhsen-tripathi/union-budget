@@ -71,6 +71,19 @@ export const budgetData: BudgetData = {
     [budget2025.YEAR]: budget2025.expenditureBreakdown,
     [budget2026.YEAR]: budget2026.expenditureBreakdown,
   },
+  historicalFiscalDeficitSources: {
+    [budget2023.YEAR]: budget2023.fiscalDeficitSources,
+    [budget2024.YEAR]: budget2024.fiscalDeficitSources,
+    [budget2025.YEAR]: budget2025.fiscalDeficitSources,
+    [budget2026.YEAR]: budget2026.fiscalDeficitSources,
+  },
+  historicalTotalAllocations: {
+    [budget2023.YEAR]: budget2023.totalAllocation,
+    [budget2024.YEAR]: budget2024.totalAllocation,
+    [budget2025.YEAR]: budget2025.totalAllocation,
+    [budget2026.YEAR]: budget2026.totalAllocation,
+  },
+  totalAllocation: budget2026.totalAllocation,
 };
 
 /** Export individual year modules for direct access */

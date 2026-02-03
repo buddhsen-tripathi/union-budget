@@ -5,6 +5,7 @@ import { BudgetTrendChart } from '../components/Charts/BudgetTrendChart';
 import { DeficitStatsCard } from '../components/Charts/DeficitStatsCard';
 import { ReceiptsChart } from '../components/Charts/ReceiptsChart';
 import { ExpenditureStructureChart } from '../components/Charts/ExpenditureStructureChart';
+import { FiscalDeficitSourcesChart } from '../components/Charts/FiscalDeficitSourcesChart';
 import { AllocationsTable } from '../components/AllocationsTable';
 import { AlertCircle, ChevronDown } from 'lucide-react';
 import { useAppStore } from '../store';
@@ -41,6 +42,7 @@ export const Dashboard: React.FC = () => {
     : undefined;
   const currentReceipts = budgetData.historicalReceipts?.[selectedYear];
   const currentExpenditure = budgetData.historicalExpenditure?.[selectedYear];
+  const currentFiscalDeficitSources = budgetData.historicalFiscalDeficitSources?.[selectedYear];
 
   // Get fiscal data for selected year and previous year
   const fiscalData = budgetData.fiscalTrends.reduce((acc, item) => {
@@ -107,6 +109,9 @@ export const Dashboard: React.FC = () => {
 
   const topAllocationYoY = getTopAllocationYoY();
 
+  // Get total allocation for selected year from pre-calculated data
+  const totalAllocation = budgetData.historicalTotalAllocations?.[selectedYear] || 0;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Section */}
@@ -149,11 +154,32 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Total Budget Allocation Banner */}
+      <div className="bg-gradient-to-r from-india-blue to-blue-700 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <p className="text-blue-100 text-sm font-medium uppercase tracking-wider">Total Budget Allocation</p>
+            <p className="text-3xl md:text-4xl font-bold mt-1">{selectedYear !== "2026-27" && "~"}{formatCrore(totalAllocation)}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-blue-100 text-sm">FY {selectedYear}</p>
+          </div>
+        </div>
+      </div>
+
       {/* Deficit Stats Hero Section */}
       {currentDeficitStats && (
         <div>
           <h3 className="text-lg font-bold text-slate-900 mb-4">Deficit Indicators ({selectedYear})</h3>
           <DeficitStatsCard data={currentDeficitStats} previousYearData={previousDeficitStats} />
+        </div>
+      )}
+
+      {/* Fiscal Deficit Financing Sources */}
+      {currentFiscalDeficitSources && (
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 mb-4">Sources of Financing Fiscal Deficit ({selectedYear})</h3>
+          <FiscalDeficitSourcesChart data={currentFiscalDeficitSources} />
         </div>
       )}
 

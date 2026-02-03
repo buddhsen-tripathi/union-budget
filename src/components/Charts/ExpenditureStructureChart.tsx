@@ -71,16 +71,16 @@ export const ExpenditureStructureChart: React.FC<ExpenditureStructureChartProps>
         <p className="text-sm text-slate-500 mb-4">
           Total Expenditure: <span className="font-semibold text-slate-700">{formatFullCrore(data.totalExpenditure)}</span>
         </p>
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="h-48 w-48 flex-shrink-0">
+        <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="h-64 w-64 flex-shrink-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={expenditureData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={40}
-                  outerRadius={70}
+                  innerRadius={55}
+                  outerRadius={100}
                   paddingAngle={2}
                   dataKey="value"
                 >
